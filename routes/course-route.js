@@ -102,8 +102,8 @@ router.post("/enroll/:_id", async (req, res) => {
   let { _id } = req.params;
   try {
     let course = await courseModel.findById({ _id }).exec();
-    let check = await courseModel.find({ students: req.user._id }).exec();
-    if (check) {
+    let check = await courseModel.find({ _id, students: req.user._id }).exec();
+    if (check.length !== 0) {
       return res.send("您已註冊過該課程");
     }
     course.students.push(req.user._id);
